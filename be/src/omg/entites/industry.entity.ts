@@ -1,7 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
-  name: 'panel_industry',
+  name: 'panel_industry2',
+  synchronize: true,
 })
 export class Industry {
   @PrimaryGeneratedColumn({
