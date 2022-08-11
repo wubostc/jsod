@@ -21,6 +21,7 @@
 import * as echarts from 'echarts'
 import { onMounted, onUnmounted, ref } from 'vue'
 import geozj from './geo/zhejiang.json'
+import geozjmock from './geo/zhejiang-mock.json'
 import config from './config'
 
 const element = ref()
@@ -133,9 +134,33 @@ const onResize = () => {
   mapInstance?.resize();
 }
 
+const addSerise = () => {
+  const effectScatterDataIndex = 1
+  const itemStyle = {
+    color: '#fcac00',
+    shadowColor: '#ffae00'
+  }
+  const label = {
+    show: false,
+  }
+
+  config.series[effectScatterDataIndex].data = geozjmock.AirQuality.map(i => {
+    return {
+      name: i.name,
+      value: [i.g[1], i.g[0], +i.aqi || 0],
+
+      itemStyle,
+      label,
+    }
+  }).slice(0, 20) as any
+
+}
+
 onMounted(() => {
   mapInstance = echarts.init(element.value as HTMLElement)
   echarts.registerMap('Province-ZJ', geozj as any)
+  addSerise()
+  console.log('geojson', config)
   mapInstance.setOption(config)
   mapInstance.on('click', (ev: any = {}) => {
     const { name, data } = ev

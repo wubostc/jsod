@@ -25,6 +25,13 @@ const config = {
       fontSize: '14px'
     },
     formatter: (params: any) => {
+      if (params.seriesName === 'effectScatterData') {
+        return `
+          <div>${params.name}</div>
+          <div>${params.data.value[2]}</div>
+        `
+      }
+      // console.log('aaaaaa',params)
       return `
         <div>
           <div style=${tooltipStyle.head}>${params.name}</div>
@@ -84,6 +91,11 @@ const config = {
     },
 
   ],
+  bmap: {
+    mapStyle: {
+      styleJson: []
+    }
+  },
   series: [
     {
       name: '浙江省',
@@ -160,9 +172,39 @@ const config = {
         {
           name: '丽水市', value: 0,
         },
-      ]
+      ],
+      zlevel: 0,
     },
-
+    {
+      name: 'effectScatterData',
+      type: 'effectScatter',
+      coordinateSystem: 'geo',
+      symbolSize: function (val: number[]) {
+        // console.log(val)
+        const a = val[2] / 10;
+        return a + 10 > 30 ? 30 : a + 10
+      },
+      colorBy: 'data',
+      itemStyle: {
+        color: '#fcac00',
+        shadowBlur: 10,
+        shadowColor: '#ffae00'
+      },
+      rippleEffect: {
+        brushType: 'stroke'
+      },
+      label: {
+        show: false,
+      },
+      emphasis: {
+        scale: true,
+        label: {
+          show: false,
+        }
+      },
+      data: [],
+      zlevel: 1111,
+    }
   ]
 }
 
