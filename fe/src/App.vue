@@ -155,7 +155,7 @@ body {
   height: 100%;
   position: relative;
   /* opacity: 0.5; */
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 </style>
 
