@@ -1,7 +1,7 @@
+import '../config.js';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import '../config.js';
 
 const HOSTNAME = process.env.NEST_HOSTNAME;
 const PORT = process.env.NEST_PORT;
