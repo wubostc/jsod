@@ -110,7 +110,7 @@ const runService = () => {
     try {
       const { data } = await omgService.getIndustroies()
       const obj: Record<string, any> = {}
-      data?.forEach((item: any) => {
+      data?.data?.RULE?.forEach((item: any) => {
         obj[item.industry_name] = item
       })
       arr.value.forEach((item) => {

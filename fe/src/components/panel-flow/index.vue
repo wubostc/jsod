@@ -62,7 +62,7 @@ const runService = () => {
   const fn = async () => {
     try {
       const { data } = await omgService.getFlow()
-      res.value = data
+      res.value = data.data.RULE
     } catch (err) {
       //
     }

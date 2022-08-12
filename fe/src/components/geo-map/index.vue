@@ -21,8 +21,9 @@
 import * as echarts from 'echarts'
 import { onMounted, onUnmounted, ref } from 'vue'
 import geozj from './geo/zhejiang.json'
-import geozjmock from './geo/zhejiang-mock.json'
+// import geozjmock from './geo/zhejiang-mock.json'
 import config from './config'
+import { getGeoPoint } from '@/api/service/omg.service'
 
 const element = ref()
 let mapInstance: echarts.ECharts
@@ -32,7 +33,7 @@ const info = ref({
   businesses: 0
 })
 
-const get = async () => {
+const getProvince = async () => {
   return [
     {
       name: '杭州市',
@@ -104,25 +105,57 @@ const get = async () => {
 
 const runService = async (instance: echarts.ECharts) => {
   const fn = async () => {
-    let data = [];
+    let data1: any[] = [];
+    let data2: any[] = [];
     try {
-      data = await get()
+      const [_data1, _data2] = await Promise.allSettled([getProvince(), getGeoPoint()])
+
+
+      /****************point **************/
+      const itemStyle = {
+        color: '#fcac00',
+        shadowColor: '#ffae00'
+      }
+      const label = {
+        show: false,
+      }
+
+      if (_data2.status === 'fulfilled') {
+        const { data } = _data2.value
+        data2 = data?.data.RULE
+
+        data2 = data2.map((i: any) => {
+          const [_, lng, lst] = i.gis.match(/\((\d+\.\d+) (\d+\.\d+)\)/)
+
+          return {
+            name: i.name,
+            value: [+lng, +lst, i.value],
+
+            itemStyle,
+            label,
+          }
+        }).slice(0, 100)
+      }
+      /****************point **************/
+
+
+      if (_data1.status === 'fulfilled') {
+        data1 = _data1.value
+      }
+
+      instance.setOption({
+        series: [
+          {
+            data: data1,
+          },
+          {
+            data: data2,
+          }
+        ]
+      }, false)
     } catch (err) {
-      console.log('runService', err)
-      return
+      console.log('err runService', err)
     }
-
-    instance.setOption({
-      series: [
-        {
-          name: '浙江省',
-          type: 'map',
-          map: 'Province-ZJ',
-          data
-        },
-      ]
-    }, false)
-
   }
 
   fn()
@@ -134,32 +167,11 @@ const onResize = () => {
   mapInstance?.resize();
 }
 
-const addSerise = () => {
-  const effectScatterDataIndex = 1
-  const itemStyle = {
-    color: '#fcac00',
-    shadowColor: '#ffae00'
-  }
-  const label = {
-    show: false,
-  }
-
-  config.series[effectScatterDataIndex].data = geozjmock.AirQuality.map(i => {
-    return {
-      name: i.name,
-      value: [i.g[1], i.g[0], +i.aqi || 0],
-
-      itemStyle,
-      label,
-    }
-  }).slice(0, 20) as any
-
-}
 
 onMounted(() => {
   mapInstance = echarts.init(element.value as HTMLElement)
   echarts.registerMap('Province-ZJ', geozj as any)
-  addSerise()
+  // addSerise()
   console.log('geojson', config)
   mapInstance.setOption(config)
   mapInstance.on('click', (ev: any = {}) => {
