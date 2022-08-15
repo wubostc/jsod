@@ -23,7 +23,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import geozj from './geo/zhejiang.json'
 // import geozjmock from './geo/zhejiang-mock.json'
 import config from './config'
-import { getGeoPoint } from '@/api/service/omg.service'
+import { getGeoCityPoint, getGeoPoint } from '@/api/service/omg.service'
 
 const element = ref()
 let mapInstance: echarts.ECharts
@@ -34,73 +34,22 @@ const info = ref({
 })
 
 const getProvince = async () => {
-  return [
-    {
-      name: '杭州市',
-      value: 1200,
-      nBusiness: 200,
-      nProject: 1000,
-    },
-    {
-      name: '宁波市',
-      value: 123,
-      nBusiness: 23,
-      nProject: 100,
-    },
-    {
-      name: '温州市',
-      value: 11,
-      nBusiness: 1,
-      nProject: 10,
-    },
-    {
-      name: '嘉兴市',
-      value: 122,
-      nBusiness: 1,
-      nProject: 121,
-    },
-    {
-      name: '湖州市',
-      value: 55,
-      nBusiness: 1,
-      nProject: 54,
-    },
-    {
-      name: '绍兴市', value: 1000,
-      nBusiness: 666,
-      nProject: 334,
-    },
-    {
-      name: '金华市',
-      value: 222222,
-      nBusiness: 111111,
-      nProject: 111111,
-    },
-    {
-      name: '衢州市',
-      value: 76,
-      nBusiness: 60,
-      nProject: 16,
-    },
-    {
-      name: '舟山市',
-      value: 777,
-      nBusiness: 60,
-      nProject: 717,
-    },
-    {
-      name: '台州市',
-      value: 777,
-      nBusiness: 60,
-      nProject: 717,
-    },
-    {
-      name: '丽水市',
-      value: 1,
-      nBusiness: 0,
-      nProject: 1,
-    },
-  ]
+  try {
+    const { data } = await getGeoCityPoint()
+    return data?.data?.RULE?.map((v: any) => {
+      return {
+        ...v,
+        name: v.city_name,
+        value: v.business_num+ v.project_num,
+        nBusiness: v.business_num ,
+        nProject: v.project_num,
+      }
+    }) || []
+  } catch (err) {
+    //
+  }
+
+  return []
 }
 
 const runService = async (instance: echarts.ECharts) => {
@@ -175,7 +124,10 @@ onMounted(() => {
   console.log('geojson', config)
   mapInstance.setOption(config)
   mapInstance.on('click', (ev: any = {}) => {
-    const { name, data } = ev
+    const { name, data, seriesName } = ev
+    if (seriesName === 'effectScatterData') {
+      return
+    }
 
     if (name === info.value.name) {
       info.value.name = ''
