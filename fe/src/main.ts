@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import store from '@/store'
+
 // import router from './router'
 // import store from './store'
 
@@ -16,7 +18,18 @@ dayjs.locale('zh-cn')
   document.title = process.env.VUE_APP_DOCUMENT_TITLE
 })()
 
-createApp(App)
-// .use(store)
-// .use(router)
-.mount('#app')
+const runService = async () => {
+  const fn = async () => {
+    await store.dispatch('setToken')
+  }
+  await fn()
+  setInterval(fn, 1000 * 59)
+}
+runService().then(() => {
+  createApp(App)
+  // .use(store)
+  // .use(router)
+  .mount('#app')
+})
+
+

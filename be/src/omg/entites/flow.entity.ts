@@ -1,7 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
-  name: 'panel_flow',
+  name: 'panel_flow2',
+  synchronize: true,
 })
 export class Flow {
   @PrimaryGeneratedColumn({

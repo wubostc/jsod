@@ -1,6 +1,22 @@
-import api from "../api"
+import api from ".."
 
 
-export const getFlow = async () => api.get(`/api/omg/flow`)
+export const getToken = async (uid = 1) => api.get(`/api/step/usr/gettoken?uid=${uid}`)
 
-export const getIndustroies = async () => api.get(`/api/omg/industries`)
+export const getFlow = async () => api.post(`/api/step/dui`, {
+  CODE: "RULE",
+  SCRIPT: "prj.screen.loadflow",
+  DATA: {}
+})
+
+export const getIndustroies = async () => api.post(`/api/step/dui`, {
+  CODE: "RULE",
+  SCRIPT: "prj.screen.getindustries",
+  DATA: {}
+})
+
+export const getGeoPoint = async () => api.post(`/api/step/dui`, {
+  CODE: "RULE",
+  SCRIPT: "prj.screen.geopoint",
+  DATA: {}
+})
