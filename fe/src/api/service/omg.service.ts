@@ -20,3 +20,9 @@ export const getGeoPoint = async () => api.post(`/api/step/dui`, {
   SCRIPT: "prj.screen.geopoint",
   DATA: {}
 })
+
+export const getGeoCityPoint = async () => api.post(`/api/step/dui`, {
+  CODE: "RULE",
+  SCRIPT: "prj.screen.geocitypoint",
+  DATA: {}
+})
