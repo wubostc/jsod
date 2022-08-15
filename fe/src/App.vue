@@ -2,8 +2,8 @@
   <div>
     <div class="header">
       <div class="date-1">
-        <div class="datetime">{{datatime}}</div>
-        <div class="weekdays">{{weekdays}}</div>
+        <div class="datetime">{{ datatime }}</div>
+        <div class="weekdays">{{ weekdays }}</div>
       </div>
 
       <div class="logo-title-wrapper">
@@ -14,7 +14,7 @@
       </div>
 
       <div class="time">
-        {{time}}
+        {{ time }}
       </div>
     </div>
 
@@ -30,12 +30,14 @@
       <PanelCurrentLoc />
     </div>
 
-    
+
     <div class="panel-industries">
       <PanelIndustries />
     </div>
 
-    <div class="geo-map"><GeoMap /></div>
+    <div class="geo-map">
+      <GeoMap />
+    </div>
   </div>
 </template>
 
@@ -66,7 +68,6 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-
 @text-color: #99E4FF;
 
 .header {
@@ -82,6 +83,7 @@ onMounted(() => {
     padding: 8px 0 0;
     display: flex;
     font-size: 18px;
+
     .datetime {
       padding: 0 0 0 115px;
       color: @text-color;
@@ -95,15 +97,20 @@ onMounted(() => {
 
   .logo-title-wrapper {
     display: flex;
-    margin: 27px 0 0;
+    margin: 30px 0 0;
     flex-grow: 1;
+    align-items: flex-start;
+
     .title {
       margin: 0 auto;
       color: #DCECFF;
+      display: inline-flex;
+      /* padding: 0px 0; */
+      align-items: center;
 
       img {
-        top: 10px;
-        position: relative;
+        // top: 10px;
+        // position: relative;
       }
 
       span {
@@ -160,19 +167,110 @@ body {
 </style>
 
 <style>
-body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; } 
-body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53; } 
-h1, h2, h3, h4, h5, h6{ font-size:100%; } 
-address, cite, dfn, em, var { font-style:normal; } 
-code, kbd, pre, samp { font-family:couriernew, courier, monospace; } 
-small{ font-size:12px; } 
-ul, ol { list-style:none; } 
-a { text-decoration:none; } 
-a:hover { text-decoration:underline; } 
-sup { vertical-align:text-top; } 
-sub{ vertical-align:text-bottom; } 
-legend { color:#000; } 
-fieldset, img { border:0; } 
-button, input, select, textarea { font-size:100%; } 
-table { border-collapse:collapse; border-spacing:0; }
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font: 12px/1.5tahoma, arial, \5b8b\4f53;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+}
+
+address,
+cite,
+dfn,
+em,
+var {
+  font-style: normal;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: couriernew, courier, monospace;
+}
+
+small {
+  font-size: 12px;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+sup {
+  vertical-align: text-top;
+}
+
+sub {
+  vertical-align: text-bottom;
+}
+
+legend {
+  color: #000;
+}
+
+fieldset,
+img {
+  border: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 </style>
