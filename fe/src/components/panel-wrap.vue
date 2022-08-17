@@ -29,7 +29,7 @@ defineProps<Props>()
   // background: linear-gradient(90deg, rgba(0,12,26,0.3000) 0%, rgba(0,41,86,0.1000) 100%);
 
 
-  background-image: url('~@/assets/images/S01_slices/矩形\ 2\ 拷贝\ 12.png');
+  background-image: url('~@/assets/images/S01_slices/矩形_2_拷贝_12.png');
   background-repeat: no-repeat;
   padding: 14px 13px;
   box-sizing: border-box;
@@ -42,7 +42,7 @@ defineProps<Props>()
 .title {
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url('~@/assets/images/S01_slices/组\ 4\(1\).png');
+  background-image: url('~@/assets/images/S01_slices/组_4_1_.png');
   width: 175px;
   height: 21.7px;
   // margin: 14px 0 0 13px;

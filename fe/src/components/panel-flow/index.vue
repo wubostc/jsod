@@ -114,7 +114,7 @@ onMounted(async () => {
 
 
 .flow-a {
-  background-image: url('~@/assets/images/S01_slices/组\ 1.png');
+  background-image: url('~@/assets/images/S01_slices/组_1.png');
   background-repeat: no-repeat;
   width: 135px;
   height: 76px;
@@ -141,7 +141,7 @@ onMounted(async () => {
 
 
 .flow-b {
-  background-image: url('~@/assets/images/S01_slices/组\ 2.png');
+  background-image: url('~@/assets/images/S01_slices/组_2.png');
   background-repeat: no-repeat;
   width: 135px;
   height: 76px;
