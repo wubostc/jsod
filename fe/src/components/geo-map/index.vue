@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import * as echarts from 'echarts'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, watch, watchEffect } from 'vue'
 import geozj from './geo/zhejiang.json'
 // import geozjmock from './geo/zhejiang-mock.json'
 import config from './config'
@@ -28,10 +28,11 @@ import { getGeoCityPoint, getGeoPoint } from '@/api/service/omg.service'
 const element = ref()
 let mapInstance: echarts.ECharts
 const info = ref({
-  name: '',
+  name: '浙江省',
   projects: 0,
   businesses: 0
 })
+let citiesData = reactive<any[]>([])
 
 const getProvince = async () => {
   try {
@@ -40,7 +41,7 @@ const getProvince = async () => {
       return {
         ...v,
         name: v.city_name,
-        value: v.business_num+ v.project_num,
+        value: v.business_num + v.project_num,
         nBusiness: v.business_num ,
         nProject: v.project_num,
       }
@@ -50,6 +51,19 @@ const getProvince = async () => {
   }
 
   return []
+}
+
+// 显示浙江省商机数/项目数
+const showAggrCountCities = (data: any[], provinceName = '浙江省') => {
+  info.value.name = provinceName
+  let nBusiness = 0;
+  let nProject = 0;
+  data.forEach(d => {
+    nBusiness += d.nBusiness
+    nProject += d.nProject
+  })
+  info.value.projects = nProject
+  info.value.businesses = nBusiness
 }
 
 const runService = async (instance: echarts.ECharts) => {
@@ -90,6 +104,8 @@ const runService = async (instance: echarts.ECharts) => {
 
       if (_data1.status === 'fulfilled') {
         data1 = _data1.value
+        citiesData = data1
+        showAggrCountCities(citiesData)
       }
 
       instance.setOption({
@@ -130,7 +146,7 @@ onMounted(() => {
     }
 
     if (name === info.value.name) {
-      info.value.name = ''
+      showAggrCountCities(citiesData)
       return
     }
 
